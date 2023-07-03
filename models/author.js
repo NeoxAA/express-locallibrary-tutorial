@@ -32,7 +32,17 @@ AuthorSchema.virtual("formatted_date_of_death").get(function () {
 });
 
 AuthorSchema.virtual("formatted_life_span").get(function () {
-    return (this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED) : '') + " - " + (this.date_of_death ? DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED) : '');
+    return (this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).setZone('GMT').toLocaleString(DateTime.DATE_MED) : '') + " - " + (this.date_of_death ? DateTime.fromJSDate(this.date_of_death).setZone('GMT').toLocaleString(DateTime.DATE_MED) : '');
 });
+
+AuthorSchema.virtual("formatted_date_of_birth_form").get(function () {
+    return this.date_of_birth ? DateTime.fromJSDate(this.date_of_birth).setZone('GMT').toISODate() : '';
+});
+  
+AuthorSchema.virtual("formatted_date_of_death_form").get(function () {
+    return this.date_of_death ? DateTime.fromJSDate(this.date_of_death).setZone('GMT').toISODate() : '';
+});
+  
+  
 
 module.exports = mongoose.model("Author", AuthorSchema);
